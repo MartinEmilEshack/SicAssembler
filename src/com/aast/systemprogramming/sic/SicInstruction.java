@@ -33,8 +33,6 @@ public class SicInstruction {
     }
 
 
-    //////////////////////////////////////////////////////////////////////////////////////
-
     private SicInstruction(int address,String instruction,String operand){
         this.address = address;
         label = null;
@@ -58,8 +56,6 @@ public class SicInstruction {
         this.operand = operand[0];
         operand2 = operand[1];
     }
-
-    /////////////////////////////////////////////////////////////////////////////////////
 
 
     String getLabel() {
@@ -127,18 +123,6 @@ public class SicInstruction {
         }
     }
 
-    boolean isStart(){
-        return instruction.equals("START");
-    }
-
-    boolean forSymbol(){
-        return instruction.equals("WORD") || instruction.equals("BYTE") || instruction.equals("RESW") || instruction.equals("RESB");
-    }
-
-    boolean isEnd(){
-        return instruction.equals("END");
-    }
-
     String toIntermediateFormat(){
         Matcher matcher = Pattern.compile("^\\s+$").matcher(label);
         if (matcher.find()) label="\t";
@@ -153,8 +137,16 @@ public class SicInstruction {
             return label+"\t"+instruction+"\t"+operand;
     }
 
-    @Override
-    public String toString() {
-        return label+"\t"+instruction+"\t"+operand+','+operand2;
+    boolean isStart(){
+        return instruction.equals("START");
     }
+
+    boolean forSymbol(){
+        return instruction.equals("WORD") || instruction.equals("BYTE") || instruction.equals("RESW") || instruction.equals("RESB");
+    }
+
+    boolean isEnd(){
+        return instruction.equals("END");
+    }
+
 }
