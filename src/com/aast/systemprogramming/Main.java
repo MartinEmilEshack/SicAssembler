@@ -1,4 +1,8 @@
-package com.aast.systemprogramming.sic;
+package com.aast.systemprogramming;
+
+import com.aast.systemprogramming.sic.SicFileIO;
+import com.aast.systemprogramming.sic.SicInstruction;
+import com.aast.systemprogramming.sic.SymbolTableIO;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,12 +45,14 @@ public class Main {
 //            }
 //        }
 
-        firstPass();
-//        secondPass();
+        firstPassSICXE();
+
+//        firstPassSIC();
+//        secondPassSIC();
 
     }
 
-    private static void firstPass(){
+    private static void firstPassSIC(){
 
         int locCounter = 0;
         SicFileIO sicFileIO = new SicFileIO("E:\\AAST\\Term7\\Microprocessors\\Lecture1Code.asm");
@@ -91,7 +97,11 @@ public class Main {
         symbolTableIO.close();
     }
 
-    static private void secondPass(){
+    static private void secondPassSIC(){
+
+    }
+
+    private static void firstPassSICXE(){
 
     }
 

@@ -7,7 +7,7 @@ public class SicFileIO {
     private BufferedReader inputFile;
     private BufferedWriter intermediateFile;
 
-    SicFileIO(String path){
+    public SicFileIO(String path){
         try {
             File file = new File(path);
             inputFile = new BufferedReader(new FileReader(path));
@@ -17,7 +17,7 @@ public class SicFileIO {
         }
     }
 
-    SicInstruction getSicInstruction() {
+    public SicInstruction getSicInstruction() {
         try {
             String instruction = inputFile.readLine();
             if (instruction != null)
@@ -29,7 +29,7 @@ public class SicFileIO {
         }
     }
 
-    String getString(){
+    public String getString(){
         try {
             return inputFile.readLine();
         } catch (IOException e) {
@@ -38,7 +38,7 @@ public class SicFileIO {
         }
     }
 
-    void writeSicIntermediate(int address,SicInstruction instruction){
+    public void writeSicIntermediate(int address,SicInstruction instruction){
         try {
             intermediateFile.write(Integer.toHexString(address)+"\t"+instruction.toIntermediateFormat());
             intermediateFile.newLine();
@@ -47,7 +47,7 @@ public class SicFileIO {
         }
     }
 
-    void closeReader(){
+    public void closeReader(){
         try {
             if (inputFile != null)
                 inputFile.close();
@@ -57,4 +57,5 @@ public class SicFileIO {
             e.printStackTrace();
         }
     }
+
 }

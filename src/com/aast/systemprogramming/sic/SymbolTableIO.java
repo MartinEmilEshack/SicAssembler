@@ -9,7 +9,7 @@ public class SymbolTableIO {
     private BufferedWriter symbolOutput;
     private BufferedReader symbolInput;
 
-    SymbolTableIO(String path) {
+    public SymbolTableIO(String path) {
         try {
             symbolOutput = new BufferedWriter(new FileWriter(path));
             symbolInput = new BufferedReader(new FileReader(path));
@@ -18,7 +18,7 @@ public class SymbolTableIO {
         }
     }
 
-    void addSymbol(String label, int address) {
+    public void addSymbol(String label, int address) {
         try {
             if (searchSymbol(label))
                 throw new IOException(label + " already exist");
@@ -48,7 +48,7 @@ public class SymbolTableIO {
         }
     }
 
-    boolean searchSymbol(String label) {
+    public boolean searchSymbol(String label) {
         try {
             String symbolLine = symbolInput.readLine();
             if (symbolLine == null)
@@ -69,7 +69,7 @@ public class SymbolTableIO {
         }
     }
 
-    void close(){
+    public void close(){
         try {
             if(symbolInput != null)
                 symbolInput.close();

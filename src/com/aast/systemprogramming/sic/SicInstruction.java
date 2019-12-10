@@ -18,7 +18,7 @@ public class SicInstruction {
         operand2 = "";
     }
 
-    private SicInstruction(String label,String instruction,String operand){
+    private SicInstruction(String label, String instruction, String operand){
         this.label = label;
         this.instruction = instruction;
         this.operand = operand;
@@ -33,7 +33,7 @@ public class SicInstruction {
     }
 
 
-    private SicInstruction(int address,String instruction,String operand){
+    public SicInstruction(int address,String instruction,String operand){
         this.address = address;
         label = null;
         this.instruction = instruction;
@@ -41,7 +41,7 @@ public class SicInstruction {
         operand2 = null;
     }
 
-    private SicInstruction(int address,String label,String instruction,String operand){
+    public SicInstruction(int address,String label,String instruction,String operand){
         this.address = address;
         this.label = label;
         this.instruction = instruction;
@@ -49,7 +49,7 @@ public class SicInstruction {
         operand2 = null;
     }
 
-    private SicInstruction(int address,String instruction,String[] operand){
+    public SicInstruction(int address,String instruction,String[] operand){
         this.address = address;
         label = null;
         this.instruction = instruction;
@@ -58,23 +58,23 @@ public class SicInstruction {
     }
 
 
-    String getLabel() {
+    public String getLabel() {
         return label;
     }
 
-    String getInstruction() {
+    public String getInstruction() {
         return instruction;
     }
 
-    String getOperand() {
+    public String getOperand() {
         return operand;
     }
 
-    String getOperand2() {
+    public String getOperand2() {
         return operand2;
     }
 
-    static SicInstruction parseInstruction(String instructionLine){
+    public static SicInstruction parseInstruction(String instructionLine){
 
 //        String label_instruction_digit = "^(\\w*)\\s+(\\w+)\\s+(\\d+)\\s*$*";
 //        String label_instruction_typeConstant = "^(\\w*)\\s+(\\w+)\\s+(\\w'\\w+')\\s*$*";
@@ -123,7 +123,7 @@ public class SicInstruction {
         }
     }
 
-    String toIntermediateFormat(){
+    public String toIntermediateFormat(){
         Matcher matcher = Pattern.compile("^\\s+$").matcher(label);
         if (matcher.find()) label="\t";
         matcher.reset(instruction);
@@ -137,15 +137,15 @@ public class SicInstruction {
             return label+"\t"+instruction+"\t"+operand;
     }
 
-    boolean isStart(){
+    public boolean isStart(){
         return instruction.equals("START");
     }
 
-    boolean forSymbol(){
+    public boolean forSymbol(){
         return instruction.equals("WORD") || instruction.equals("BYTE") || instruction.equals("RESW") || instruction.equals("RESB");
     }
 
-    boolean isEnd(){
+    public boolean isEnd(){
         return instruction.equals("END");
     }
 
