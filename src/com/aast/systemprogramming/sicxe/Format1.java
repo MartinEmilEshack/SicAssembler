@@ -10,8 +10,10 @@ public class Format1 {
     }
 
     public static boolean isIt(String instruction){
-        Matcher matcher = Pattern.compile("^(\\w*:?)\\s+(\\w+)\\s*$").matcher(instruction);
-        return matcher.find() && !Directive.isIt(matcher.group(2));
+        Matcher matcher = Pattern.compile("^\\w*\\s+(\\w+)\\s*$").matcher(instruction);
+        return matcher.find() &&
+                !Directive.isIt(matcher.group(1)) &&
+                !matcher.group(1).equals(Format3.RSUB);
     }
 
 }
