@@ -15,6 +15,7 @@ public enum Directive {
     USE;
 
     public static boolean isIt(String value){
+        System.out.println(value);
         return value.equals(START.name()) ||
                 value.equals(BYTE.name()) ||
                 value.equals(RESB.name()) ||

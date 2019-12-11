@@ -3,8 +3,8 @@ package com.aast.systemprogramming;
 import com.aast.systemprogramming.sic.SicFileIO;
 import com.aast.systemprogramming.sic.SicInstruction;
 import com.aast.systemprogramming.sic.SymbolTableIO;
-import com.aast.systemprogramming.sicxe.Directive;
 import com.aast.systemprogramming.sicxe.Format1;
+import com.aast.systemprogramming.sicxe.Format2;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -104,9 +104,12 @@ public class Main {
     }
 
     private static void firstPassSICXE(){
-        String testInstruction = "\tRSUB";
-        if (Format1.isFormat1(testInstruction))
+        String testInstruction = "LABEL:\tRSUB A,S";
+        if (Format1.isIt(testInstruction))
             System.out.println("Format 1 Instruction");
+        else if (Format2.isIt(testInstruction)){
+            System.out.println("Format 2 Instruction");
+        }
         else
             System.out.println("Directive");
     }
