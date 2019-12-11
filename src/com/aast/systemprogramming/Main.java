@@ -6,6 +6,7 @@ import com.aast.systemprogramming.sic.SymbolTableIO;
 import com.aast.systemprogramming.sicxe.Format1;
 import com.aast.systemprogramming.sicxe.Format2;
 import com.aast.systemprogramming.sicxe.Format3;
+import com.aast.systemprogramming.sicxe.Format4;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -106,7 +107,7 @@ public class Main {
 
     private static void firstPassSICXE(){
 
-        String testInstruction = "LABEL3\tRSB Al,X";
+        String testInstruction = "LABEL3\tRSB A0";
 
         if (Format1.isIt(testInstruction))
             System.out.println("Format 1 Instruction");
@@ -114,6 +115,8 @@ public class Main {
             System.out.println("Format 2 Instruction");
         else if (Format3.isIt(testInstruction))
             System.out.println("Format 3 Instruction");
+        else if (Format4.isIt(testInstruction))
+            System.out.println("Format 4 Instruction");
         else
             System.out.println("Directive");
 
