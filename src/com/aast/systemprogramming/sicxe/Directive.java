@@ -2,14 +2,15 @@ package com.aast.systemprogramming.sicxe;
 
 public enum Directive {
 
-    START,BYTE,RESB,BASE,ORG,END,WORD,RESW,LTORG,EQU,USE;
+    START, BYTE, RESB, BASE, NOBASE, ORG, END, WORD, RESW, LTORG, EQU, USE;
 
-    public static boolean isIt(String value){
+    public static boolean isIt(String value) {
 //        System.out.println(value);
         return value.equals(START.name()) ||
                 value.equals(BYTE.name()) ||
                 value.equals(RESB.name()) ||
                 value.equals(BASE.name()) ||
+                value.equals(NOBASE.name()) ||
                 value.equals(ORG.name()) ||
                 value.equals(END.name()) ||
                 value.equals(WORD.name()) ||
