@@ -53,7 +53,7 @@ public class Main {
                 instructionFile.writeIntermediate(locationCounter, directive.toString());
 
                 if (directive.getDirective().equals(Directive.LTORG)) {
-                    for (LiteralMemory.Literal literal : LiteralMemory.getLiterals()) {
+                    for (Literal literal : LiteralMemory.getLiterals()) {
                         locationCounter += literal.size;
                         instructionFile.writeLiteral(literal.label, locationCounter - literal.size);
                     }
@@ -64,7 +64,7 @@ public class Main {
                 locationCounter = directive.getNextAddress(locationCounter);
 
                 if (directive.getDirective().equals(Directive.END)) {
-                    for (LiteralMemory.Literal literal : LiteralMemory.getLiterals()) {
+                    for (Literal literal : LiteralMemory.getLiterals()) {
                         locationCounter += literal.size;
                         instructionFile.writeLiteral(literal.label, locationCounter - literal.size);
                     }

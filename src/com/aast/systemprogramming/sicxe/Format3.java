@@ -61,7 +61,7 @@ public class Format3 {
             operator = matcher.group(2);
             memory = matcher.group(3);
             xbpe = 2;
-            LiteralMemory.add(new LiteralMemory.Literal(
+            LiteralMemory.add(new Literal(
                     memory, memory.startsWith("=X'") ?
                     (memory.length() - 4) % 2 == 0 ?
                     (memory.length() - 4) / 2 : (memory.length() - 4) / 2 + 1 : memory.length() - 4));
