@@ -35,7 +35,7 @@ public class DirectiveFormatter {
             label = matcher.group(1).equals("") ? null : matcher.group(1);
             directive = Directive.valueOf(matcher.group(2));
             String rest = instruction;
-            rest = rest.replace(matcher.group(0),"");
+            rest = rest.replace(matcher.group(0), "");
             if (rest.contains("+") ||
                     rest.contains("-") ||
                     rest.contains("*") ||

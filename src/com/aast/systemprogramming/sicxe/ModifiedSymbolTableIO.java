@@ -47,7 +47,7 @@ class ModifiedSymbolTableIO {
                 intValue = Integer.parseInt(match.group(1), 16);
             else if (value.equals("*"))
                 intValue = address;
-            else if (value.contains("+") || value.contains("-") || value.contains("*") || value.contains("/")){
+            else if (value.contains("+") || value.contains("-") || value.contains("*") || value.contains("/")) {
                 for (String oldLabel : value.split("\\s*[^a-zA-Z]+\\s*"))
                     value = value.replaceAll(oldLabel, Integer.toString(getValue(oldLabel)));
 
@@ -61,10 +61,8 @@ class ModifiedSymbolTableIO {
             symbolOutput.newLine();
             symbolOutput.flush();
 
-        } catch (ScriptException se){
+        } catch (ScriptException | IOException se) {
             se.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
