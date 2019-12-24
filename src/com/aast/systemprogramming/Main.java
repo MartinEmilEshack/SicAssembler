@@ -27,25 +27,25 @@ public class Main {
             if (Format1.isIt(instruction)) {
                 Format1 instructionF1 = new Format1(instruction);
                 instructionFile.writeIntermediate(locationCounter, instructionF1.toString());
-                instructionFile.writeSymbol(instructionF1.getLabel(), locationCounter);
+                instructionFile.writeSymbol(locationCounter, instructionF1.getLabel());
                 locationCounter = Format1.getNextAddress(locationCounter);
 
             } else if (Format2.isIt(instruction)) {
                 Format2 instructionF2 = new Format2(instruction);
                 instructionFile.writeIntermediate(locationCounter, instructionF2.toString());
-                instructionFile.writeSymbol(instructionF2.getLabel(), locationCounter);
+                instructionFile.writeSymbol(locationCounter, instructionF2.getLabel());
                 locationCounter = Format2.getNextAddress(locationCounter);
 
             } else if (Format3.isIt(instruction)) {
                 Format3 instructionF3 = new Format3(instruction);
                 instructionFile.writeIntermediate(locationCounter, instructionF3.toString());
-                instructionFile.writeSymbol(instructionF3.getLabel(), locationCounter);
+                instructionFile.writeSymbol(locationCounter, instructionF3.getLabel());
                 locationCounter = Format3.getNextAddress(locationCounter);
 
             } else if (Format4.isIt(instruction)) {
                 Format4 instructionF4 = new Format4(instruction);
                 instructionFile.writeIntermediate(locationCounter, instructionF4.toString());
-                instructionFile.writeSymbol(instructionF4.getLabel(), locationCounter);
+                instructionFile.writeSymbol(locationCounter, instructionF4.getLabel());
                 locationCounter = Format4.getNextAddress(locationCounter);
 
             } else {
@@ -60,7 +60,11 @@ public class Main {
                     LiteralMemory.clear();
                 }
 
-                instructionFile.writeSymbol(directive.getLabel(), locationCounter);
+                if (directive.getDirective().equals(Directive.EQU))
+                    instructionFile.writeSymbol(locationCounter, directive.getLabel(), directive.getOperand());
+                else
+                    instructionFile.writeSymbol(locationCounter, directive.getLabel());
+
                 locationCounter = directive.getNextAddress(locationCounter);
 
                 if (directive.getDirective().equals(Directive.END)) {

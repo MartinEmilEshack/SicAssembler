@@ -40,8 +40,12 @@ public class SicXeFileIO {
         }
     }
 
-    public void writeSymbol(String label, int address) {
-        symbolTableIO.addSymbol(label, address);
+    public void writeSymbol(int address, String label) {
+        symbolTableIO.addSymbol(address, label);
+    }
+
+    public void writeSymbol(int address, String label, String value){
+        symbolTableIO.addSymbol(address, label, value);
     }
 
     public void writeLiteral(String literal, int address) {

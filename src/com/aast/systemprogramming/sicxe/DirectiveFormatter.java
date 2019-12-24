@@ -31,6 +31,18 @@ public class DirectiveFormatter {
             label = matcher.group(1).equals("") ? null : matcher.group(1);
             directive = Directive.valueOf(matcher.group(2));
 
+        } else if (matcher.usePattern(Pattern.compile("^(\\w*)\\s+(\\w+)\\s+")).find()) {
+            label = matcher.group(1).equals("") ? null : matcher.group(1);
+            directive = Directive.valueOf(matcher.group(2));
+            String rest = instruction;
+            rest = rest.replace(matcher.group(0),"");
+            if (rest.contains("+") ||
+                    rest.contains("-") ||
+                    rest.contains("*") ||
+                    rest.contains("/"))
+                operand = rest;
+            else
+                throw new IllegalStateException();
         } else throw new IllegalStateException();
     }
 

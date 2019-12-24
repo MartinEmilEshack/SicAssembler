@@ -1,5 +1,8 @@
 package com.aast.systemprogramming.sicxe;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,7 +22,7 @@ class ModifiedSymbolTableIO {
         }
     }
 
-    void addSymbol(String label, int address) {
+    void addSymbol(int address, String label) {
         if (label == null) return;
         try {
             if (searchSymbol(label))
@@ -32,22 +35,79 @@ class ModifiedSymbolTableIO {
         }
     }
 
+    void addSymbol(int address, String label, String value) {
+        if (label == null) return;
+        try {
+            if (searchSymbol(label))
+                throw new IOException(label + " already exist");
+
+            int intValue;
+            Matcher match = Pattern.compile("^X'(\\w+)'").matcher(value);
+            if (match.find())
+                intValue = Integer.parseInt(match.group(1), 16);
+            else if (value.equals("*"))
+                intValue = address;
+            else if (value.contains("+") || value.contains("-") || value.contains("*") || value.contains("/")){
+                for (String oldLabel : value.split("\\s*[^a-zA-Z]+\\s*"))
+                    value = value.replaceAll(oldLabel, Integer.toString(getValue(oldLabel)));
+
+                ScriptEngine javaScript = (new ScriptEngineManager()).getEngineByName("JavaScript");
+                intValue = (int) javaScript.eval(value);
+
+            } else
+                intValue = Integer.parseInt(value);
+
+            symbolOutput.write(String.format("%04X", address) + "\t" + label + "\t" + intValue);
+            symbolOutput.newLine();
+            symbolOutput.flush();
+
+        } catch (ScriptException se){
+            se.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     int getAddress(String label) {
         try (BufferedReader symbolInput = new BufferedReader(new FileReader(symbolTableFile))) {
             String symbolLine = symbolInput.readLine();
-            Matcher match = Pattern.compile("^(\\d+)\\s+(" + label + ")\\s*$*").matcher(symbolInput.readLine());
+            if (symbolLine == null) throw new IllegalStateException();
+            Matcher match = Pattern.compile("^(\\d+)\\s+" + label + "\\s*$").matcher(symbolLine);
             while (symbolLine != null) {
                 if (match.find()) {
                     return Integer.parseInt(match.group(1), 16);
                 } else {
                     symbolLine = symbolInput.readLine();
-                    match.reset(symbolLine);
+                    if (symbolLine != null) match.reset(symbolLine);
                 }
             }
             return 0;
         } catch (IOException e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    int getValue(String label) {
+        try (BufferedReader symbolInput = new BufferedReader(new FileReader(symbolTableFile))) {
+            String symbolLine = symbolInput.readLine();
+            if (symbolLine == null) throw new IllegalStateException();
+            Matcher match = Pattern.compile("^\\d+\\s+" + label + "\\s+(\\d+)\\s*$").matcher(symbolLine);
+            while (symbolLine != null) {
+                if (match.find())
+                    return Integer.parseInt(match.group(1));
+                else if (match.usePattern(Pattern.compile("^\\d+\\s+" + label + "\\s+X'(\\w+)'\\s*$")).find())
+                    return Integer.parseInt(match.group(1), 16);
+                else {
+                    symbolLine = symbolInput.readLine();
+                    match.usePattern(Pattern.compile("^\\d+\\s+" + label + "\\s+(\\d+)\\s*$"));
+                    if (symbolLine != null) match.reset(symbolLine);
+                }
+            }
+            throw new IllegalStateException();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
         }
     }
 
