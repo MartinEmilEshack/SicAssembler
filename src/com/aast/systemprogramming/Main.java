@@ -5,6 +5,9 @@ import com.aast.systemprogramming.sic.SicInstruction;
 import com.aast.systemprogramming.sic.SymbolTableIO;
 import com.aast.systemprogramming.sicxe.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,12 +16,16 @@ public class Main {
     public static void main(String[] args) {
 
         firstPassSICXE();
-
+//        secondPassSICXE();
+//        System.out.println(SicXEMatcher.getMatchGroups("0943 label LDA approx", SicXEMatcher.fullLineWithLabel));
+//            System.out.println(tRecord.getFinalOpcode("LDT", "#300","0006"));
+//        System.out.println(mRecord.createModificationRecord("000c"));
+        secondPassSICXE();
     }
 
     private static void firstPassSICXE() {
 
-        SicXeFileIO instructionFile = new SicXeFileIO("E:\\AAST\\Term7\\System Programming\\Project\\SicAssembler\\src\\com\\aast\\systemprogramming\\SIC program\\SicXeSection.asm");
+        SicXeFileIO instructionFile = new SicXeFileIO("C:\\Users\\Abdu\\Desktop\\SicAssembler-master\\src\\com\\aast\\systemprogramming\\SIC program\\SicXeSection.asm");
 
         int locationCounter = 0;
         String instruction = instructionFile.getSicXeInstruction();
@@ -131,8 +138,25 @@ public class Main {
         symbolTableIO.close();
     }
 
-    static private void secondPassSIC() {
-
+    private static void secondPassSICXE() {
+        hteRecordIO hterecordIO = new hteRecordIO();
+        String hteRec = "";
+        hterecordIO.readIntermidiateFile("C:\\Users\\Abdu\\Desktop\\SicAssembler-master\\src\\com\\aast\\systemprogramming\\SIC program\\Intermediate.txt");
+        System.out.println(hRecord.GetHRecord(hterecordIO.getProgName(), hterecordIO.getStartAddr() , hterecordIO.getProgLen()).toUpperCase().trim());
+//        System.out.println(hterecordIO.totalLineLength);
+//        System.out.println(hterecordIO.calcLocCounters);
+//        System.out.println(hterecordIO.LocCounters);
+//        System.out.println(hterecordIO.instructions);
+//        System.out.println(hterecordIO.operands);
+        ArrayList<String>[] codeData = new ArrayList[4];
+        codeData[0] = hterecordIO.instructions;
+        codeData[1] = hterecordIO.operands;
+        codeData[2] = hterecordIO.LocCounters;
+        codeData[3] = hterecordIO.calcLocCounters;
+        System.out.println(tRecord.getAllTRecords(codeData).toUpperCase().trim());
+        System.out.println(mRecord.dumpModificationRecord().toUpperCase().trim());
+        System.out.println(eRecord.GetERecord(hterecordIO.getStartAddr()).toUpperCase().trim());
+//        hteRecordIO.writeToHTERecord("C:\\Users\\Abdu\\Desktop\\SicAssembler-master\\src\\com\\aast\\systemprogramming\\SIC program");
     }
 
     //        String label_instruction_digit = "^(\\w*)\\s+(\\w+)\\s+(\\d+)\\s*$*";
